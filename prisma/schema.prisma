@@ -1,0 +1,104 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  customers Customer[]
+  deals     Deal[]
+  activities Activity[]
+
+  @@map("users")
+}
+
+model Customer {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  phone       String?
+  company     String?
+  address     String?
+  status      String   @default("prospect") // prospect, active, inactive
+  source      String?  // website, referral, cold_call, etc.
+  assignedTo  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  user       User?      @relation(fields: [assignedTo], references: [id])
+  deals      Deal[]
+  activities Activity[]
+
+  @@map("customers")
+}
+
+model Deal {
+  id          String   @id @default(cuid())
+  title       String
+  value       Float
+  stage       String   @default("lead") // lead, qualified, proposal, negotiation, closed_won, closed_lost
+  probability Int      @default(0)
+  closeDate   DateTime?
+  description String?
+  customerId  String
+  assignedTo  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  customer   Customer   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  user       User?      @relation(fields: [assignedTo], references: [id])
+  activities Activity[]
+
+  @@map("deals")
+}
+
+model Activity {
+  id          String   @id @default(cuid())
+  type        String   // call, email, meeting, note, task
+  subject     String
+  description String?
+  status      String   @default("completed") // completed, scheduled, cancelled
+  dueDate     DateTime?
+  customerId  String?
+  dealId      String?
+  assignedTo  String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  customer Customer? @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  deal     Deal?     @relation(fields: [dealId], references: [id], onDelete: Cascade)
+  user     User?     @relation(fields: [assignedTo], references: [id])
+
+  @@map("activities")
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  industry    String?
+  size        String?  // small, medium, large, enterprise
+  website     String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("companies")
+}
