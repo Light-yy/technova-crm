@@ -52,7 +52,7 @@ export default function CustomersPage() {
 
   useEffect(() => {
     fetchCustomers()
-  }, [searchTerm, statusFilter, fetchCustomers])
+  }, [fetchCustomers])
 
   const filteredCustomers = customers.filter((customer) => {
     const matchesSearch =
