@@ -19,7 +19,7 @@ interface Analytics {
 }
 
 export default function DashboardPage() {
-  const [analytics, setAnalytics] = useState<Analytics>({
+  const [analytics] = useState<Analytics>({
     totalCustomers: 15,
     activeCustomers: 12,
     totalDeals: 8,
@@ -29,7 +29,7 @@ export default function DashboardPage() {
     conversionRate: 37.5,
     avgDealSize: 15625,
   })
-  const [loading, setLoading] = useState(false)
+  const [isLoading] = useState(false)
   const router = useRouter()
 
   const handleLogout = async () => {

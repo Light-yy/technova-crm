@@ -22,68 +22,6 @@ interface Customer {
   activities: number
 }
 
-const mockCustomers: Customer[] = [
-  {
-    id: "1",
-    name: "John Smith",
-    email: "john@acme.com",
-    phone: "+1-555-0123",
-    company: "Acme Corporation",
-    status: "active",
-    createdAt: "2024-01-15",
-    deals: 3,
-    totalValue: 45000,
-    activities: 12,
-  },
-  {
-    id: "2",
-    name: "Sarah Johnson",
-    email: "sarah@techsolutions.com",
-    phone: "+1-555-0124",
-    company: "Tech Solutions Ltd",
-    status: "active",
-    createdAt: "2024-01-14",
-    deals: 2,
-    totalValue: 30000,
-    activities: 8,
-  },
-  {
-    id: "3",
-    name: "Mike Wilson",
-    email: "mike@global.com",
-    phone: "+1-555-0125",
-    company: "Global Industries",
-    status: "prospect",
-    createdAt: "2024-01-13",
-    deals: 1,
-    totalValue: 15000,
-    activities: 5,
-  },
-  {
-    id: "4",
-    name: "Lisa Brown",
-    email: "lisa@startup.com",
-    phone: "+1-555-0126",
-    company: "Startup Inc",
-    status: "active",
-    createdAt: "2024-01-12",
-    deals: 2,
-    totalValue: 25000,
-    activities: 7,
-  },
-  {
-    id: "5",
-    name: "David Lee",
-    email: "david@enterprise.com",
-    phone: "+1-555-0127",
-    company: "Enterprise Corp",
-    status: "inactive",
-    createdAt: "2024-01-11",
-    deals: 1,
-    totalValue: 10000,
-    activities: 3,
-  },
-]
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<Customer[]>([])
@@ -114,7 +52,7 @@ export default function CustomersPage() {
 
   useEffect(() => {
     fetchCustomers()
-  }, [searchTerm, statusFilter])
+  }, [searchTerm, statusFilter, fetchCustomers])
 
   const filteredCustomers = customers.filter((customer) => {
     const matchesSearch =

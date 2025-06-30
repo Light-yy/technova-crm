@@ -55,8 +55,10 @@ export default function NewCustomerPage() {
       // Success message
       alert("Customer created successfully!")
       router.push("/customers")
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      }
     } finally {
       setLoading(false)
     }

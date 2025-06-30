@@ -41,8 +41,10 @@ export default function LoginPage() {
 
       router.push("/dashboard")
       router.refresh()
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message)
+      }
     } finally {
       setLoading(false)
     }
