@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -29,7 +29,7 @@ export default function CustomersPage() {
   const [statusFilter, setStatusFilter] = useState("all")
   const [loading, setLoading] = useState(true)
 
-  const fetchCustomers = async () => {
+  const fetchCustomers = useCallback(async () => {
     try {
       setLoading(true)
       const params = new URLSearchParams()
@@ -48,7 +48,7 @@ export default function CustomersPage() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [searchTerm, statusFilter])
 
   useEffect(() => {
     fetchCustomers()

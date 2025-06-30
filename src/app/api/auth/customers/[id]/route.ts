@@ -34,9 +34,10 @@ const mockCustomers = [
   },
 ]
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const customer = mockCustomers.find((c) => c.id === params.id)
+    const { id } = await params
+    const customer = mockCustomers.find((c) => c.id === id)
 
     if (!customer) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 })
@@ -49,12 +50,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const data = await request.json()
     const { name, email, phone, company, address, status, source } = data
 
-    const customerIndex = mockCustomers.findIndex((c) => c.id === params.id)
+    const customerIndex = mockCustomers.findIndex((c) => c.id === id)
     if (customerIndex === -1) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 })
     }
@@ -77,9 +79,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const customerIndex = mockCustomers.findIndex((c) => c.id === params.id)
+    const { id } = await params
+    const customerIndex = mockCustomers.findIndex((c) => c.id === id)
     if (customerIndex === -1) {
       return NextResponse.json({ error: "Customer not found" }, { status: 404 })
     }

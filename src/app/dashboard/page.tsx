@@ -29,7 +29,6 @@ export default function DashboardPage() {
     conversionRate: 37.5,
     avgDealSize: 15625,
   })
-  const [isLoading] = useState(false)
   const router = useRouter()
 
   const handleLogout = async () => {
